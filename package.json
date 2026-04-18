@@ -1,0 +1,50 @@
+{
+  "name": "better-starlite3-drizzle",
+  "version": "0.1.0",
+  "description": "Drizzle ORM driver for better-starlite3 — unified async SQLite across better-sqlite3, best-sqlite3, and FlexDB",
+  "keywords": ["better-starlite3", "drizzle", "drizzle-orm", "sqlite", "better-sqlite3", "best-sqlite3", "flexdb", "database"],
+  "homepage": "https://github.com/tluyben/better-starlite3-drizzle#readme",
+  "license": "MIT",
+  "author": "Tycho Andersen",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./migrator": {
+      "import": "./dist/migrator.js",
+      "types": "./dist/migrator.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=18.0.0" },
+  "scripts": {
+    "preinstall": "bash scripts/clone-deps.sh",
+    "build": "tsc --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json --watch",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "test": "node --import tsx/esm --test 'tests/**/*.test.ts'",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run typecheck"
+  },
+  "peerDependencies": {
+    "better-starlite3": ">=1.0.0",
+    "drizzle-orm": ">=0.30.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.0.0",
+    "better-sqlite3": "^12.9.0",
+    "best-sqlite3": "^1.0.19",
+    "better-starlite3": "file:./3rdparty/better-starlite3",
+    "drizzle-orm": "^0.36.4",
+    "flexdb-node": "file:./3rdparty/flexdb-node",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  }
+}

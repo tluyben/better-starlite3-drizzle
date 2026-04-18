@@ -1,0 +1,4 @@
+node_modules/
+dist/
+3rdparty/
+*.tsbuildinfo
