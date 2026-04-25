@@ -13,6 +13,10 @@ clone_and_build() {
   if [ -d "$dir/.git" ]; then
     echo "[3rdparty] $name already present — skipping clone"
   else
+    if [ -d "$dir" ]; then
+      echo "[3rdparty] $name dir exists but is not a git repo — removing and re-cloning"
+      rm -rf "$dir"
+    fi
     echo "[3rdparty] cloning $name from $url"
     git clone --depth 1 "$url" "$dir"
   fi
