@@ -48,6 +48,11 @@ else
   echo "[3rdparty] cloning better-starlite3 from https://github.com/tluyben/better-starlite3.git"
   git clone --depth 1 https://github.com/tluyben/better-starlite3.git "$BS3"
 fi
+# Replace stub flexdb-node (empty dir committed in better-starlite3 git repo)
+# with a symlink to the real built one so npm can resolve it.
+rm -rf "$BS3/3rdparty/flexdb-node"
+mkdir -p "$BS3/3rdparty"
+ln -s "$THIRD/flexdb-node" "$BS3/3rdparty/flexdb-node"
 echo "[3rdparty] installing better-starlite3"
 (cd "$BS3" && npm install)
 
@@ -72,6 +77,15 @@ else
 fi
 echo "[3rdparty] installing better-starlite"
 (cd "$BSL_DIR" && npm install)
+# Fix: npm symlinks better-starlite/node_modules/flexdb-node to the stub;
+# replace with the real built package.
+rm -rf "$BSL_DIR/node_modules/flexdb-node"
+mkdir -p "$BSL_DIR/node_modules"
+ln -s "$THIRD/flexdb-node" "$BSL_DIR/node_modules/flexdb-node"
+# Fix: patch implicit-any TypeScript errors (strict mode build)
+sed -i -e 's/result\.rows\.map(row =>/result.rows.map((row: any) =>/' \
+  -e 's/result\.columns\.forEach((col, i)/result.columns.forEach((col: string, i: number)/' \
+  "$BSL_DIR/src/drivers/flexdb-client.ts"
 if [ ! -d "$BSL_DIR/dist" ]; then
   echo "[3rdparty] building better-starlite"
   (cd "$BSL_DIR" && npm run build)

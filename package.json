@@ -12,12 +12,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     },
     "./migrator": {
+      "types": "./dist/migrator.d.ts",
       "import": "./dist/migrator.js",
-      "types": "./dist/migrator.d.ts"
+      "default": "./dist/migrator.js"
     }
   },
   "files": ["dist", "README.md", "LICENSE"],
